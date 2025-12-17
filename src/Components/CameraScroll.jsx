@@ -1066,7 +1066,7 @@ export default function CameraScroll(props) {
                 color="#2d1d04"
                 material-opacity={0}
             >
-                BY BRUNO SIMON
+                BY DHIRAJ YADAV (UDEMY)
             </Text>
         </group>
 
