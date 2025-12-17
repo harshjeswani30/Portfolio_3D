@@ -1,6 +1,6 @@
 # Portfolio_3D
 
-![Portfolio Preview](exemple.png)
+![Portfolio Preview](https://drive.google.com/uc?export=view&id=1eI8EIDQBXI_NivGxDlkmwesvu7lZg1bi)
 
 ## Welcome to My 3D Portfolio
 
