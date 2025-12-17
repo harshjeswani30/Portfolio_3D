@@ -78,7 +78,7 @@ pnpm build
 
 ## Live Demo
 
-**Visit:** [https://harshjeswani.com](https://harshjeswani.com)
+**Visit:** [https://harshjeswani.com](https://harshjeswani.tech)
 
 ## Contact
 
