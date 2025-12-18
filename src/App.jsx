@@ -26,7 +26,7 @@ export default function App() {
             curveRadius={ -50 }
             fontSize={ 5 }
           >
-            Maxime's World
+            Harsh's World
         </Text>
       </Float>
 

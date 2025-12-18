@@ -4,7 +4,7 @@ export default function Soap(props)
 {
     const htmlTexture = useTexture('./Textures/HtmlSoapBaked.jpg')
     const cssTexture = useTexture('./Textures/CssSoapBaked.jpg')
-    const pythonTexture = useTexture('./Textures/PyhonSoapBaked.jpg')
+    const javaTexture = useTexture('./Textures/JavaSoapBaked.png')
     const javascriptTexture = useTexture('./Textures/JavascriptSoapBaked.jpg')
 
     return <>
@@ -33,7 +33,7 @@ export default function Soap(props)
             geometry={props.nodes.PythonSoap.geometry}
             position={[0, 1, 0]}
         >
-            <meshBasicMaterial map={pythonTexture} map-flipY={false} />
+            <meshBasicMaterial map={javaTexture} map-flipY={false} />
         </mesh>
     </>
 }

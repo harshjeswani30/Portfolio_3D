@@ -8,8 +8,10 @@ export default {
     base: './',
     plugins:
     [
-        // React support
-        react(),
+        // React support with explicit React Refresh
+        react({
+            jsxRuntime: 'automatic',
+        }),
 
         // .js file support as if it was JSX
         {

@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useScroll, useTexture, Text } from '@react-three/drei'
-import { FrontSide } from 'three'
+import { FrontSide, ShaderMaterial } from 'three'
 
 import gsap from 'gsap'
 
@@ -10,6 +10,24 @@ import TvScreen from './House/TvScreen.jsx'
 export default function CameraScroll(props) {
 
     const DoorTexture = useTexture('./Textures/DoorBaked.jpg')
+    
+    // Create solid green material for "Harsh House" text
+    const gradientMaterial = useRef(new ShaderMaterial({
+        vertexShader: `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `,
+        fragmentShader: `
+            void main() {
+                // Solid green color
+                vec3 greenColor = vec3(0.2, 0.8, 0.4);
+                gl_FragColor = vec4(greenColor, 1.0);
+            }
+        `
+    }))
 
     const camera = useThree((state) => state.camera);
     
@@ -17,11 +35,13 @@ export default function CameraScroll(props) {
     const tlRef = useRef()
 
     const reactTextRef = useRef()
+    const nextjsTextRef = useRef()
+    const gsapTextRef = useRef()
     const symfonyTextRef = useRef()
     const threejsTextRef = useRef()
     const blenderTextRef = useRef()
 
-    const pythonTextRef = useRef()
+    const javaTextRef = useRef()
     const htmlTextRef = useRef()
     const cssTextRef = useRef()
     const javascriptTextRef = useRef()
@@ -54,6 +74,7 @@ export default function CameraScroll(props) {
     const sport2TextRef = useRef()
 
     const seeyouTextRef = useRef()
+    const harshHouseTextRef = useRef()
 
     const [progress, setProgress] = useState(1)
     const [opacity, setOpacity] = useState(0)
@@ -112,7 +133,7 @@ export default function CameraScroll(props) {
             camera.position,
             {
                 duration: 2,
-                x: 2.3,
+                x: 1.9,
                 y: 2.6,
                 z: 0.3,
             },
@@ -129,6 +150,60 @@ export default function CameraScroll(props) {
         ) 
         tlRef.current.to(
             reactTextRef.current.material,
+            {
+                opacity: 1,
+            },"<40%"
+        )
+
+        //GO TO NEXT.JS MUG
+        tlRef.current.to(
+            camera.position,
+            {
+                duration: 2,
+                x: 2.35,
+                y: 2.6,
+                z: 0.4,
+            },
+        )
+        tlRef.current.to(
+            camera.rotation,
+            {          
+                duration: 2,     
+                x: 0, 
+                y: Math.PI,  
+                z: 0,         
+            
+            }, "<"          
+        ) 
+        tlRef.current.to(
+            nextjsTextRef.current.material,
+            {
+                opacity: 1,
+            },"<40%"
+        )
+
+        //GO TO GSAP MUG
+        tlRef.current.to(
+            camera.position,
+            {
+                duration: 2,
+                x: 1.45,
+                y: 2.6,
+                z: 0.4,
+            },
+        )
+        tlRef.current.to(
+            camera.rotation,
+            {          
+                duration: 2,     
+                x: 0, 
+                y: Math.PI,  
+                z: 0,         
+            
+            }, "<"          
+        ) 
+        tlRef.current.to(
+            gsapTextRef.current.material,
             {
                 opacity: 1,
             },"<40%"
@@ -208,7 +283,7 @@ export default function CameraScroll(props) {
             }, "<"          
         ) 
 
-        //GO TO PYTHON SOAP
+        //GO TO JAVA SOAP
         tlRef.current.to(
             camera.position,
             {
@@ -229,7 +304,7 @@ export default function CameraScroll(props) {
             }, "<"          
         ) 
         tlRef.current.to(
-            pythonTextRef.current.material,
+            javaTextRef.current.material,
             {
                 opacity: 1,
             },"<40%"
@@ -785,18 +860,105 @@ export default function CameraScroll(props) {
             </mesh>
         </group>  
 
+        {/* Black rectangle overlay to cover original text on exterior wall */}
+        {/* Exterior wall is at position [-0.006, 1.6, -4.011] with rotation [0, 1.571, 0] */}
+        {/* Wall starts at y=1.6, text is typically in upper portion of wall texture */}
+        {/* Positioned in front of wall (z=-2 is forward/closer to camera than wall at z=-4.011) */}
+        <mesh
+            position={[4.1, 5, 0.9]}
+            rotation={[0.4, 1.571, 0]}
+        >
+            <planeGeometry args={[3.0, 1.4]} />
+            <shaderMaterial
+                transparent={false}
+                vertexShader={`
+                    varying vec2 vUv;
+                    void main() {
+                        vUv = uv;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `}
+                fragmentShader={`
+                    uniform vec2 size;
+                    uniform float radius;
+                    varying vec2 vUv;
+                    
+                    void main() {
+                        vec2 pos = vUv * size;
+                        vec2 center = size * 0.5;
+                        vec2 dist = abs(pos - center);
+                        vec2 corner = size * 0.5 - vec2(radius);
+                        
+                        float rounded = 1.0;
+                        if (dist.x > corner.x && dist.y > corner.y) {
+                            vec2 cornerDist = dist - corner;
+                            float cornerRadius = length(cornerDist);
+                            if (cornerRadius > radius) {
+                                rounded = 0.0;
+                            }
+                        }
+                        
+                        gl_FragColor = vec4(0.0, 0.0, 0.0, rounded);
+                    }
+                `}
+                uniforms={{
+                    size: { value: [3.0, 1.4] },
+                    radius: { value: 0.2 }
+                }}
+            />
+        </mesh>
+
+        {/* "HARSH HOUSE" text with gradient style, positioned in front of the black rectangle overlay */}
+        {/* Overlay is 3.0 x 1.4 units, text should cover the full area (left, right, top, bottom) */}
+        <Text
+            ref={harshHouseTextRef}
+            font="./fonts/Audiowide-Regular.ttf"
+            position={[4.2, 5, 0.95]}
+            rotation={[0.4, 1.571, 0]}
+            fontSize={0.55}
+            material={gradientMaterial.current}
+            maxWidth={2.9}
+            letterSpacing={0.08}
+        >
+            HARSH{'\n'}HOUSE
+        </Text>
+
         <TvScreen progress={progress} opacity={opacity}/>      
 
         <Text
             ref={reactTextRef}
             font="./fonts/Bangers.ttf"
-            position={[2.2, 2.7, 1]}
+            position={[1.8, 2.7, 1]}
             fontSize={0.1}
             rotation-y={Math.PI}
             color="#2d1d04"
             material-opacity={0}
         >
             REACT
+        </Text>
+
+        <Text
+            ref={nextjsTextRef}
+            font="./fonts/Bangers.ttf"
+            position={[2.25, 2.7, 1.1]}
+            fontSize={0.1}
+            rotation-y={Math.PI}
+            color="#2d1d04"
+            material-opacity={0}
+        >
+            NEXTJS
+        </Text>
+
+        <Text
+            ref={gsapTextRef}
+            font="./fonts/Bangers.ttf"
+            position={[1.35, 2.7, 1.1]}
+            fontSize={0.1}
+            rotation-y={Math.PI}
+            color="#2d1d04"
+            material-opacity={0}
+        >
+            GSAP
         </Text>
 
         <Text
@@ -836,7 +998,7 @@ export default function CameraScroll(props) {
         </Text>
 
         <Text
-            ref={pythonTextRef}
+            ref={javaTextRef}
             font="./fonts/Bangers.ttf"
             position={[-1.6, 3.1, 0.1]}
             fontSize={0.1}
@@ -844,7 +1006,7 @@ export default function CameraScroll(props) {
             color="#2d1d04"
             material-opacity={0}
         >
-            Python
+            Java
         </Text>
 
         <Text
@@ -904,7 +1066,7 @@ export default function CameraScroll(props) {
                 color="#2d1d04"
                 material-opacity={0}
             >
-                BY BRUNO SIMON
+                BY DHIRAJ YADAV (UDEMY)
             </Text>
         </group>
 
@@ -920,7 +1082,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-            Higher National Diploma in Computer Sciences
+            Class XII - Science
             </Text>
             <Text
                 ref={dut2TextRef}
@@ -932,7 +1094,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                (DUT informatique)
+                Percentage: 84%
             </Text>
 
              <Text
@@ -945,7 +1107,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                University of La Rochelle
+                Sir Padampat Singhania School, Kota (2022)
             </Text>
         </group>
 
@@ -961,7 +1123,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-            Bachelor’s degree in Computer Sciences
+            Class X
             </Text>
             <Text
                 ref={licence2TextRef}
@@ -973,7 +1135,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                (Licence informatique)
+                Percentage: 90%
             </Text>
 
              <Text
@@ -986,7 +1148,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                University of La Rochelle
+                Sir Padampat Singhania School, Kota (2022)
             </Text>
         </group>
 
@@ -1002,7 +1164,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-            Master’s degree in Computer Sciences (In progress...)
+            B.E. Computer Science (In progress...)
             </Text>
             <Text
                 ref={master2TextRef}
@@ -1014,7 +1176,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                (Master informatique)
+                Current CGPA: 7.67
             </Text>
 
              <Text
@@ -1027,7 +1189,7 @@ export default function CameraScroll(props) {
                 material-side={FrontSide}
                 material-opacity={0}
             >
-                University of Bordeaux
+                Chandigarh University (2022-2026)
             </Text>
         </group>
 
