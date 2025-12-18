@@ -64,7 +64,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.4, 2.45, -3.48]} 
         scale={[0.09, 0.1, 0.1]} 
-        onClick={() => handleClick("https://leetcode.com/u/Harshjeswani30/")}
+        onClick={() => handleClick("https://github.com/harshjeswani30")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={githubTexture} transparent />
@@ -73,7 +73,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.6, 2.45, -3.48]} 
         scale={[0.09, 0.1, 0.1]} 
-        onClick={() => handleClick("https://leetcode.com/u/Harshjeswani30/")}
+        onClick={() => handleClick("https://x.com/harshjeswani30")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={xTexture} transparent />
@@ -82,7 +82,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.8, 2.45, -3.48]} 
         scale={[0.09, 0.1, 0.1]} 
-        onClick={() => handleClick("https://www.linkedin.com/in/harshjeswani30/")}
+        onClick={() => handleClick("https://www.linkedin.com/in/maxime-guillon-developpeur-junior/")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={linledinTexture} transparent />
@@ -91,7 +91,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.4, 2.25, -3.48]} 
         scale={[0.07, 0.1, 0.1]}
-        onClick={() => handleClick("./CV/CV.pdf")}
+        onClick={() => handleClick("./CV/CVGuillonMaxime.pdf")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={cvTexture} transparent />
@@ -100,7 +100,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.6, 2.25, -3.48]} 
         scale={[0.09, 0.1, 0.1]}
-        onClick={() => handleClick("https://github.com/harshjeswani30/Portfolio_3D")}
+        onClick={() => handleClick("https://github.com/Maxxiiime/KameHousePortfolio")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={sourceTexture} transparent />
@@ -109,7 +109,7 @@ export default function TvScreen(props)
       <mesh 
         position={[0.8, 2.25, -3.48]} 
         scale={[0.09, 0.12, 0.12]}
-        onClick={() => handleClick("mailto:harshjeswani30@gmail.com")}
+        onClick={() => handleClick("mailto:max2002guillon@gmail.com")}
       >
         <planeGeometry/>
         <meshBasicMaterial  map={workTexture} transparent />
